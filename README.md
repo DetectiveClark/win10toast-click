@@ -1,75 +1,42 @@
-# win10toast-click
-
-![Not Maintained](https://img.shields.io/badge/Maintenance%20Level-Not%20Maintained-yellow.svg)
-
-<br>
-<hr>
-<br>
-<br>
-
-![](https://img.shields.io/badge/platform-Windows-blue)
-
-![](https://img.shields.io/pypi/status/win10toast-click) ![](https://img.shields.io/pypi/v/win10toast-click)
+# win10toast-clickimproved
 
 >An easy-to-use Python library for displaying Windows 10 Toast Notifications. Improved version of [win10toast](https://pypi.org/project/win10toast/) and [win10toast-persist](https://pypi.org/project/win10toast-persist/) to include `callback_on_click` to run a function on notification click, for example to open a URL.
-
-![](https://user-images.githubusercontent.com/6877391/109433448-9dc60d80-7a10-11eb-8c57-06760c2d638e.png)
-
-## Context
-
-1: [Original module](https://github.com/jithurjacob/Windows-10-Toast-Notifications).
-
-2: [Tweaked version with support for notifications that persist in the notification center](https://github.com/tnthieding/Windows-10-Toast-Notifications).
-
-**This fork** is an improved version of 2 ^ with `callback_on_click` that allows to run a function on notification click, for example to open a URL. 
-
-## Installation
-
-```bat
-pip install win10toast-click
-```
 
 ## Example
 
 ```python
 # modules
 import webbrowser
-from win10toast_click import ToastNotifier 
+from win10toast_clickimproved import ToastNotifier
+
 
 # function 
-page_url = 'http://example.com/'
 
-def open_url():
-    try: 
+
+def open_url(page_url):
+    try:
         webbrowser.open_new(page_url)
-        print('Opening URL...')  
-    except: 
+        print('Opening URL...')
+    except:
         print('Failed to open URL. Unsupported variable type.')
+
 
 # initialize 
 toaster = ToastNotifier()
-
 # showcase
-toaster.show_toast(
-    "Example two", # title
-    "Click to open URL! >>", # message 
-    icon_path=None, # 'icon_path' 
-    duration=5, # for how many seconds toast should be visible; None = leave notification in Notification Center
-    threaded=True, # True = run other code in parallel; False = code execution will wait till notification disappears 
-    callback_on_click=open_url # click notification to run function 
+page_urls = ['http://example1.com/', 'http://example2.com/', 'http://example3.com/', 'http://example4.com/']
+for page in page_urls:
+    toaster.show_toast(
+        "Example two",  # title
+        "Click to open URL! >>",  # message 
+        icon_path=None,  # 'icon_path' 
+        duration=5,  # for how many seconds toast should be visible; None = leave notification in Notification Center
+        threaded=True,
+        # True = run other code in parallel; False = code execution will wait till notification disappears 
+        callback_on_click=open_url,  # click notification to run function 
+        cb_args=[page]  # Arguments to pass to the method.  Must be in the same order they appear in the method.
     )
 ```
-
-## Release History
-
-- 0.1.3: A tiny clean-up. 
-- 0.1.2: Prepared for distribution on Python Package Index (PyPI).
-- 0.1.1: Renamed repo.
-- 0.1: Initial release.
-
-## Versioning
-
-Using [SemVer](http://semver.org/).
 
 ## License
 
@@ -94,5 +61,3 @@ Using [SemVer](http://semver.org/).
 ## Contributing
 
 ![](https://img.shields.io/github/issues/vardecab/win10toast-click)
-
-If you found a bug or want to propose a feature, feel free to visit [the Issues page](https://github.com/vardecab/win10toast-click/issues).
